@@ -1,23 +1,15 @@
-const Sequelize = require('sequelize') ;
 
-const sequelize = require('../util/database') ;
+const getDb = require("../util/database").getDb;
 
-const User = sequelize.define('user' , {
+class User {
 
-      id : {
-            type : Sequelize.INTEGER ,
-            allowNull: false ,
-            autoIncrement : true ,
-            primaryKey: true
-      } ,
-      name : {
-            type :Sequelize.STRING ,
-            allowNull : false ,
-      } ,
-      email : {
-            type : Sequelize.STRING ,
-            allowNull : false ,
-      } ,
-})
+      constructor(username , email) {
+            this.username = username ;
+            this.email = email ;
+      }
 
-module.exports = User ;
+      save() {
+            const db = getDb ;
+            return db.collection('users').insertOne(this);
+      }
+}
