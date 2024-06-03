@@ -167,7 +167,7 @@ class Product {
       });
   }
 
-  static findByPk(prodId) {
+  static findById(prodId) {
     const db = getDb();
 
     return db
