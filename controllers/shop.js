@@ -1,6 +1,6 @@
 const Product = require("../models/product");
 const Cart = require("../models/cart");
-const mongodb = require('mongodb') ;
+const mongodb = require("mongodb");
 
 exports.getProducts = (req, res, next) => {
   Product.fetchAll()
@@ -73,11 +73,8 @@ exports.getCart = (req, res, next) => {
 
   req.user
     .getCart()
-    .then((cart) => {
-      // console.log(cart) ;
-      return cart.getProducts();
-    })
     .then((products) => {
+      // console.log(cart) ;
       res.render("shop/cart", {
         path: "/cart",
         pageTitle: "Your Cart",
@@ -91,12 +88,16 @@ exports.postCart = (req, res, next) => {
   const prodId = req.body.productId;
   // console.log(prodId , "prodId from shop") ;
 
-  Product.findById(prodId).then(product => {
-    // console.log(product , 'prddo') ;
-    return req.user.addToCart(product) ;  
-  }).then(result => {
-    console.log(result , "resut") ;
-  })
+  Product.findById(prodId)
+    .then((product) => {
+      // console.log(product , 'prddo') ;
+     return req.user.addToCart(product);
+    })
+    .then((result) => {
+     res.redirect("/cart");
+
+      // console.log(result, "resut");
+    });
   // let fetchedCart;
   // let newQuantity = 1;
 
