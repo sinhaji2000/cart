@@ -165,35 +165,17 @@ exports.postCartDeleteProduct = (req, res, next) => {
 exports.postOrder = (req, res, next) => {
   let fetchCart;
   req.user
-    .getCart()
-    .then((cart) => {
-      fetchCart = cart;
-      return cart.getProducts();
-    })
-    .then((products) => {
-      // console.log("carts", products);
-      return req.user.createOrder().then((order) => {
-        return order.addProducts(
-          products.map((product) => {
-            product.orderItem = { quantity: product.cartItem.quantity };
-            return product;
-          })
-        );
-      });
-      // res.redirect("/create-order");
-    })
+  .addOrder()
     .then((results) => {
-      return fetchCart.setProducts(null);
+      res.redirect('/orders');
     })
-    .then((results) => {
-      res.redirect("/orders");
-    })
+    
     .catch((err) => console.log(err));
 };
 
 exports.getOrders = (req, res, next) => {
   req.user
-    .getOrders({ include: ["products"] })
+    .getOrders()
     .then((orders) => {
       console.log(orders);
       res.render("shop/orders", {
