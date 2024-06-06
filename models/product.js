@@ -203,7 +203,7 @@
 
 
 const mongoose = require('mongoose') ;
-const { STRING } = require('sequelize');
+// const { STRING } = require('sequelize');
 const Schema = mongoose.Schema ;
 
 const ProductSchema = new Schema({
@@ -224,6 +224,12 @@ const ProductSchema = new Schema({
   } ,
   imageUrl : {
     type : String ,
+    require : true ,
+  } ,
+
+  userId : {
+    type : Schema.Types.ObjectId ,
+    ref : 'User' ,
     require : true ,
   }
 })
