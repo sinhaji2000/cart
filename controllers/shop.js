@@ -4,7 +4,7 @@ const Cart = require("../models/cart");
 const mongodb = require("mongodb");
 
 exports.getProducts = (req, res, next) => {
-  Product.find()
+  Product.find({userId : req.user._id})
     .then((products) => {
       console.log(products);
       res.render("shop/product-list", {

@@ -92,6 +92,10 @@ exports.postEditProduct = (req, res, next) => {
   const updateDesc = req.body.description;
 
   Product.findById(prodId).then(product => {
+
+    if(product.userId.toString() !== req.user._id.toString()){
+      return res.redirect('/')
+    }
     product.title = updateTitle ;
     product.price = updatePrice ;
     product.description = updateDesc ;
@@ -110,7 +114,7 @@ exports.postEditProduct = (req, res, next) => {
 exports.postDeleteproduct = (req, res, next) => {
   const prodId = req.body.productId;
 
-  Product.findByIdAndDelete(prodId)
+  Product.deleteOne({_id : prodId , userId  : req.user._id})
     .then(() => {
       console.log("PRODUCT DESTROYED");
       res.redirect("/admin/products");
@@ -119,7 +123,7 @@ exports.postDeleteproduct = (req, res, next) => {
 };
 exports.getProducts = (req, res, next) => {
   // Product.findAll()
-  Product.find()
+  Product.find({_id : prodId , userId  : req.user._id})
   .populate('userId')
     .then((products) => {
       console.log(products) ;
