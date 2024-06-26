@@ -122,8 +122,8 @@ exports.postDeleteproduct = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 exports.getProducts = (req, res, next) => {
-  // Product.findAll()
-  Product.find({_id : prodId , userId  : req.user._id})
+  const prodId = req.body.productId;
+  Product.find({ userId  : req.user._id})
   .populate('userId')
     .then((products) => {
       console.log(products) ;
