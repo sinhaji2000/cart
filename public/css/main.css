@@ -240,6 +240,24 @@ form {
   background: rgb(255, 176, 176);
   color: red;
 }
+.pegination{
+  margin-top: 2rem;
+  text-align: center;
+}
+.pegination a{
+  text-decoration: none;
+  color: green;
+  padding: 0.5rem;
+  border: 1px solid green;
+  margin: 0 1rem;
+}
+.pegination a:hover , 
+.pegination a:active , 
+.pegination a.active 
+{
+  background-color: green;
+  color: white;
+}
 
 
 @media (min-width: 768px) {

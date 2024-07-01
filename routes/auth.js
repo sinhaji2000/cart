@@ -3,6 +3,7 @@ const path = require("path");
 const express = require("express");
 const { check, body } = require("express-validator");
 const router = express.Router();
+const User = require('../models/user')
 
 const authController = require("../controllers/auth");
 
@@ -25,6 +26,7 @@ router.post(
   authController.postLogin
 );
 
+
 router.post(
   "/signup",
   [
@@ -32,7 +34,7 @@ router.post(
       .isEmail()
       .withMessage("Please enter a valid email.")
       .custom((value, { req }) => {
-        return User.find({ email: value }).then((userDoc) => {
+        return User.findOne({ email: value }).then((userDoc) => {
           if (userDoc) {
             return Promise.reject(
               "Email exist alredy , please use differnt one"
@@ -43,9 +45,10 @@ router.post(
     body("password", "please enter  valid password")
       .isLength({ min: 5 })
       .isAlphanumeric()
-      .normalizeEmail()
       .trim(),
     body("confirmPassword")
+    .isLength({min:5})
+    .isAlphanumeric()
       .custom((value, { req }) => {
         if (value !== req.body.password) {
           throw new Error("password not match");
@@ -57,12 +60,13 @@ router.post(
   authController.postSignup
 );
 
+
 router.post("/logout", authController.postLogout);
 router.get("/reset", authController.getReset);
 
 router.post("/reset", authController.postReset);
 
 router.get("/reset/:token", authController.getNewPassword);
-router.post("/new-password", authController.postNewPaswword);
+router.post("/new-password", authController.postNewPassword);
 
 module.exports = router;
